@@ -14,15 +14,13 @@
 
   let currency = 'USD';
 
-  // eslint-disable-next-line
-  function handleCurrency(e: CustomEvent<any>) {
-    // eslint-disable-next-line
+  function handleCurrency(e: CustomEvent<Record<string, string>>) {
     currency = e.detail.currency;
   }
 </script>
 
 <div id="home">
-  <Nav on:currency={handleCurrency} />∏
+  <Nav on:currency={handleCurrency} />
   <h1>Home screen</h1>
   <Sea {currency} />
 </div>
