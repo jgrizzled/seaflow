@@ -1,4 +1,4 @@
-import { fetchNewSales } from '../fetchNewSales';
+import { fetchNewSales } from '../utils/fetchNewSales';
 
 // smoke test
 test('should run', async () => {

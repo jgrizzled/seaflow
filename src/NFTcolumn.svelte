@@ -3,7 +3,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import NFTsale from './NFTsale.svelte';
-  import { fetchNewSales, NFTsaleData } from './fetchNewSales';
+  import { fetchNewSales, NFTsaleData } from './utils/fetchNewSales';
   let sales: NFTsaleData[] = [];
   const refreshInterval = 1;
   async function getNewSales() {

@@ -3,7 +3,6 @@
     display: flex;
     flex-direction: column;
     height: 100%;
-    background-color: lavender;
     padding: 1em;
   }
 </style>
@@ -21,6 +20,5 @@
 
 <div id="home">
   <Nav on:currency={handleCurrency} />
-  <h1>Home screen</h1>
   <Sea {currency} />
 </div>

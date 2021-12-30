@@ -14,7 +14,7 @@
 </style>
 
 <script lang="ts">
-  import type { NFTsaleData } from './fetchNewSales';
+  import type { NFTsaleData } from './utils/fetchNewSales';
   export let sale: NFTsaleData;
   const maxWidth = 250;
   const minWidth = 50;
