@@ -10,10 +10,12 @@
   }
 </style>
 
-<script>
+<script lang="ts">
   import Home from './components/Home.svelte';
+  import NFTcolumn from './NFTcolumn.svelte';
 </script>
 
 <main>
   <Home />
+<NFTcolumn />
 </main>
