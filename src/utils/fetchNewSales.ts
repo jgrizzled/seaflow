@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon';
-import dummyData from './dummy-data.json';
+import dummyData from '../dummy-data.json';
 
 interface Token {
   name: string;
