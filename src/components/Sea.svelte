@@ -16,7 +16,7 @@
   // export let currency: string;
   let sales: NFTsaleData[] = [];
 
-  const refreshInterval = 1;
+  const refreshInterval = 10;
   async function getNewSales() {
     const newSales = await fetchNewSales();
     if (newSales.length > 0) sales = [...newSales, ...sales];

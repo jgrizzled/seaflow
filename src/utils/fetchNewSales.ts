@@ -1,5 +1,8 @@
+// fetch new NFT sales
+
 import { DateTime } from 'luxon';
-import dummyData from '../dummy-data.json';
+import { fetchSaleEvents } from './openseaAPI';
+import type { AssetEvent } from './openseaAPI-types';
 
 interface Token {
   name: string;
@@ -20,39 +23,39 @@ export interface NFTsaleData {
   timestamp: DateTime;
 }
 
-// eslint-disable-next-line
-async function fetchNewSales_prod(): Promise<NFTsaleData[]> {
+// Last seen timestamp
+let lastTimestamp = DateTime.now().minus({ days: 30 });
+
+// fetches new sale events since last seen timestamp
+export async function fetchNewSales(): Promise<NFTsaleData[]> {
+  const newSales = await fetchSaleEvents(lastTimestamp, 20, 0);
+  if (newSales.length > 0) {
+    lastTimestamp = DateTime.fromISO(newSales[0].transaction?.timestamp as string);
+    const tSales = newSales.map(transformSaleEvent);
+    return tSales;
+  }
+  lastTimestamp = DateTime.now();
   return [];
 }
 
-// Mock API implementation
-let called = 0;
-// eslint-disable-next-line
-async function fetchNewSales_mock(): Promise<NFTsaleData[]> {
-  const event = dummyData.asset_events[called];
-  called++;
-  if (!event) return [];
-  const t = event.payment_token;
+// Transforms /events JSON response
+function transformSaleEvent(e: AssetEvent): NFTsaleData {
   const token: Token = {
-    name: t.name || '',
-    symbol: t.symbol,
-    address: t.address,
-    decimals: t.decimals,
-    ETHprice: Number(t.eth_price),
-    USDprice: Number(t.usd_price),
-    imageURL: t.image_url
+    name: e.payment_token?.name || '',
+    symbol: e.payment_token?.symbol || '',
+    address: e.payment_token?.address || '',
+    decimals: e.payment_token?.decimals || 0,
+    ETHprice: Number(e.payment_token?.eth_price || 0),
+    USDprice: Number(e.payment_token?.usd_price || 0),
+    imageURL: e.payment_token?.image_url || ''
   };
   const sale: NFTsaleData = {
-    name: event.asset.name,
-    imageURL: event.asset.image_preview_url,
-    openseaURL: event.asset.permalink,
+    name: e.asset?.name || '',
+    imageURL: e.asset?.image_preview_url || '',
+    openseaURL: e.asset?.permalink || '',
     paymentToken: token,
-    paymentAmount: Number(event.quantity),
-    timestamp: DateTime.fromISO(event.transaction.timestamp)
+    paymentAmount: Number(e.quantity || 0),
+    timestamp: DateTime.fromISO(e.transaction?.timestamp as string)
   };
-  return [sale];
+  return sale;
 }
-
-export let fetchNewSales: () => Promise<NFTsaleData[]>;
-if (process.env.NODE_ENV == 'test') fetchNewSales = fetchNewSales_mock;
-else fetchNewSales = fetchNewSales_prod;

@@ -10,7 +10,13 @@ import json from '@rollup/plugin-json';
 import replace from '@rollup/plugin-replace';
 import dotenv from 'dotenv';
 
-dotenv.config();
+try {
+  dotenv.config({
+    path: `.${process.env.NODE_ENV}.env`
+  });
+} catch (e) {
+  console.error(e);
+}
 
 const production = !process.env.ROLLUP_WATCH;
 
