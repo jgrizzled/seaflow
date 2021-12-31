@@ -51,7 +51,7 @@
   import { fly } from 'svelte/transition';
   import { circIn } from 'svelte/easing';
   import NavList from './NavList.svelte';
-
+  export let currency: string;
   let isOpen = false;
 
   function toggle() {
@@ -71,7 +71,7 @@
     <button on:click={toggle}>
       <i class="fas fa-times" />
     </button>
-    <NavList on:currency on:toggle={toggle} />
+    <NavList on:currencyChange on:toggle={toggle} {currency} />
     <p>Created and developed by Justin Greene and Marissa McDonnell</p>
   </div>
 {/if}

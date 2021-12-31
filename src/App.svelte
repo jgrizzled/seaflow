@@ -1,16 +1,4 @@
 <style>
-  /* global */
-  @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@600&display=swap');
-  main {
-    --primary-pink: #ffadff;
-    --purple: #8d25a3;
-    --green: #b1e3db;
-    --primary-dark: #423300;
-    --beige: #ede6cf;
-
-    font-family: 'Source Sans Pro', sans-serif;
-  }
-
   .container {
     font-size: 1em;
     position: absolute;

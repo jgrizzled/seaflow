@@ -1,4 +1,22 @@
 <style>
+  /* span {
+    content: '';
+    position: relative;
+    display: inline-block;
+    margin-top: 72vh;
+    left: 50%;
+    transform: translate(-50%, 0);
+    border-radius: 50%;
+    height: 67vw;
+    width: 69vw;
+    background: rgb(255, 173, 255);
+    background: linear-gradient(
+      0deg,
+      rgba(255, 173, 255, 1) 0%,
+      rgba(255, 150, 0, 1) 69%
+    );
+  } */
+
   section {
     position: absolute;
     top: -300px;
@@ -30,6 +48,7 @@
 </script>
 
 <section>
+  <!-- <span /> -->
   {#each sales as sale}
     <Bubble {sale} />
   {/each}
