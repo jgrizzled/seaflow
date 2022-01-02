@@ -14,7 +14,8 @@
     "deploy": "git push origin master",
     "test": "jest --bail",
     "test:watch": "jest --watch",
-    "mock-server": "mock-json-server mock-data.json --port=8000"
+    "mock-server": "mock-json-server mock-data.json --port=8000",
+    "cors-proxy": "node cors-proxy.js"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^17.0.0",
@@ -30,6 +31,7 @@
     "@types/node": "^17.0.5",
     "@typescript-eslint/eslint-plugin": "^5.8.0",
     "@typescript-eslint/parser": "^5.8.0",
+    "cors-anywhere": "^0.4.4",
     "eslint": "^8.5.0",
     "eslint-plugin-svelte3": "^3.2.1",
     "husky": "^7.0.4",

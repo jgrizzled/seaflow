@@ -34,7 +34,7 @@
   // export let currency: string;
   let sales: NFTsaleData[] = [];
 
-  const refreshInterval = 10;
+  const refreshInterval = 15; // Ethereum average block time ~15s
   async function getNewSales() {
     const newSales = await fetchNewSales();
     if (newSales.length > 0) sales = [...newSales, ...sales];

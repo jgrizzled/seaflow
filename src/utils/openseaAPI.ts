@@ -36,9 +36,8 @@ export async function request(
   _params: { [key: string]: string } = {} // eslint-disable-next-line
 ): Promise<any> {
   // combine urls and params
-  const url = new URL(path, baseURL);
-  const params = new URLSearchParams(_params);
-  url.search = new URLSearchParams(params).toString();
+  const url = baseURL + path;
+  const params = new URLSearchParams(_params).toString();
   const options = {
     method: 'GET',
     headers
@@ -48,7 +47,7 @@ export async function request(
   while (tries < maxTries) {
     tries++;
     try {
-      response = await fetch(url.href, options);
+      response = await fetch(url + '?' + params, options);
     } catch (e) {
       if (tries >= maxTries) throw e;
       console.error(e);
