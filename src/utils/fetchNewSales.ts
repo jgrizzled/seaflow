@@ -27,15 +27,20 @@ export interface NFTsaleData {
 let lastTimestamp = DateTime.now().minus({ days: 30 });
 
 // fetches new sale events since last seen timestamp
-export async function fetchNewSales(): Promise<NFTsaleData[]> {
-  const newSales = await fetchSaleEvents(lastTimestamp, 20, 0);
-  if (newSales.length > 0) {
-    lastTimestamp = DateTime.fromISO(newSales[0].transaction?.timestamp as string);
-    const tSales = newSales.map(transformSaleEvent);
-    return tSales;
+export async function fetchNewSales(): Promise<NFTsaleData[] | undefined> {
+  try {
+    const newSales = await fetchSaleEvents(lastTimestamp, 20, 0);
+    console.log('fetch and new');
+    if (newSales.length > 0) {
+      lastTimestamp = DateTime.fromISO(newSales[0].transaction?.timestamp as string);
+      const tSales = newSales.map(transformSaleEvent);
+      return tSales;
+    }
+    lastTimestamp = DateTime.now();
+    return [];
+  } catch (e) {
+    console.error(e);
   }
-  lastTimestamp = DateTime.now();
-  return [];
 }
 
 // Transforms /events JSON response

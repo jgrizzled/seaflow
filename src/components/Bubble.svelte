@@ -4,6 +4,8 @@
     margin: 0;
     display: inline-block;
     text-align: center;
+    position: relative;
+    top: 0;
   }
 
   span {
@@ -47,26 +49,35 @@
 
 <script lang="ts">
   import { fly } from 'svelte/transition';
-  import { quartInOut } from 'svelte/easing';
+  import { quartIn } from 'svelte/easing';
   import type { NFTsaleData } from '../utils/fetchNewSales';
   export let sale: NFTsaleData;
+  export let i: number;
+  export let finish: string;
+
   const maxWidth = 250;
   const minWidth = 50;
   const USDvalue = sale.paymentAmount * sale.paymentToken.USDprice;
-  const ETHvalue = sale.paymentAmount * sale.paymentToken.ETHprice;
+  // const ETHvalue = sale.paymentAmount * sale.paymentToken.ETHprice;
   const valueCap = 7;
   const scalar = Math.min(Math.log10(USDvalue) / valueCap, 1);
   const size = Math.max(scalar * maxWidth, minWidth);
+  console.log('bubble', finish);
+
+  const rand = Math.floor(Math.random() * 1000);
+
+  console.log(rand, i);
 </script>
 
 <div
-  transition:fly={{
-    delay: 100,
-    duration: 40000,
+  in:fly={{
+    delay: rand * i,
+    duration: 20000,
     opacity: 1,
     y: 1500,
-    easing: quartInOut
+    easing: quartIn
   }}
+  on:introend={() => (finish = sale.name + i.toString())}
 >
   <span id="glare" />
   <span />
