@@ -48,15 +48,15 @@
 <script lang="ts">
   import { fly } from 'svelte/transition';
   import { quartInOut } from 'svelte/easing';
-  import type { NFTsaleData } from '../utils/fetchNewSales';
-  export let sale: NFTsaleData;
+  import type { SaleEvent } from '../utils/cryptopunksAPI';
+  export let sale: SaleEvent;
   const maxWidth = 250;
   const minWidth = 50;
-  const USDvalue = sale.paymentAmount * sale.paymentToken.USDprice;
-  const ETHvalue = sale.paymentAmount * sale.paymentToken.ETHprice;
+  //const USDvalue = sale.paymentAmount * sale.paymentToken.USDprice;
+  //const ETHvalue = sale.paymentAmount * sale.paymentToken.ETHprice;
   const valueCap = 7;
-  const scalar = Math.min(Math.log10(USDvalue) / valueCap, 1);
-  const size = Math.max(scalar * maxWidth, minWidth);
+  //const scalar = Math.min(Math.log10(USDvalue) / valueCap, 1);
+  //const size = Math.max(scalar * maxWidth, minWidth);
 </script>
 
 <div
@@ -70,6 +70,8 @@
 >
   <span id="glare" />
   <span />
+  <!---
   <img src={sale.imageURL} alt={sale.name} width="{size}px" height="{size}px" />
   <p>${USDvalue.toFixed(2)}</p>
+  -->
 </div>

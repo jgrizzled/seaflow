@@ -29,10 +29,10 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import Bubble from './Bubble.svelte';
-  import { fetchNewSales, NFTsaleData } from '../utils/fetchNewSales';
+  import { fetchNewSales, SaleEvent } from '../utils/cryptopunksAPI';
 
   // export let currency: string;
-  let sales: NFTsaleData[] = [];
+  let sales: SaleEvent[] = [];
 
   const refreshInterval = 15; // Ethereum average block time ~15s
   async function getNewSales() {

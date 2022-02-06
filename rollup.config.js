@@ -10,9 +10,10 @@ import json from '@rollup/plugin-json';
 import replace from '@rollup/plugin-replace';
 import dotenv from 'dotenv';
 
+// Load *.env file based on NODE_ENV
 try {
   dotenv.config({
-    path: `.${process.env.NODE_ENV}.env`
+    path: `${process.env.NODE_ENV}.env`
   });
 } catch (e) {
   console.error(e);
@@ -77,9 +78,10 @@ export default {
     }),
     json(),
     replace({
+      // Hardcode env var values into build
       values: {
-        'process.env.API_URL': `'${process.env.API_URL}'`,
-        'process.env.API_KEY': `'${process.env.API_KEY}'`,
+        'process.env.CRYPTOPUNKS_API_URL': `'${process.env.CRYPTOPUNKS_API_URL}'`,
+        'process.env.COINGECKO_API_URL': `'${process.env.COINGECKO_API_URL}'`,
         'process.env.NODE_ENV': `'${process.env.NODE_ENV}'`
       },
       preventAssignment: true
