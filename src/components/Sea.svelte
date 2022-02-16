@@ -17,9 +17,9 @@
     );
   } */
 
-  section {
+  .container {
     position: absolute;
-    top: -300px;
+    top: -400px;
     bottom: 0;
     left: 0;
     right: 0;
@@ -33,23 +33,76 @@
 
   // export let currency: string;
   let sales: SaleEvent[] = [];
-
   const refreshInterval = 15; // Ethereum average block time ~15s
   async function getNewSales() {
-    const newSales = await fetchNewSales();
-    if (newSales.length > 0) sales = [...newSales, ...sales];
-    setTimeout(() => {
-      getNewSales();
-    }, refreshInterval * 1000);
+    console.log('getnew sales');
+    try {
+      const newSales = await fetchNewSales();
+      if (!newSales) return sales;
+      if (newSales.length > 0) sales = [...sales, ...newSales];
+      setTimeout(() => {
+        getNewSales();
+      }, refreshInterval * 500);
+    } catch (e) {
+      console.error(e);
+    }
   }
   onMount(() => {
     getNewSales();
   });
 </script>
 
-<section>
-  <!-- <span /> -->
-  {#each sales as sale}
-    <Bubble {sale} />
+<div class="container">
+  {#each sales as sale, index (sale.name + index)}
+    <Bubble {sale} i={index} />
   {/each}
-</section>
+</div>
+
+<!-- <script lang="ts">
+  import { onMount } from 'svelte';
+  import Bubble from './Bubble.svelte';
+  import { fetchNewSales, NFTsaleData } from '../utils/fetchNewSales';
+
+  // export let currency: string;
+  let sales: NFTsaleData[] = [];
+
+  // const refreshInterval = 10;
+  async function getNewSales() {
+    console.log('getnew sales');
+    try {
+      const newSales = await fetchNewSales();
+      console.log(newSales);
+      if (!newSales) return sales;
+      if (newSales.length > 0) sales = [...sales, ...newSales];
+      // setTimeout(() => {
+      //   getNewSales();
+      // }, refreshInterval * 1000);
+    } catch (e) {
+      console.error(e);
+    }
+  }
+  onMount(() => {
+    getNewSales();
+  });
+
+  let counter = 0;
+  // $: {
+  const intervalId = setInterval(() => {
+    counter += 1;
+    console.log('interval', counter, sales.length);
+    if (counter > sales.length) {
+      clearInterval(intervalId);
+    }
+  }, 2000);
+  // }
+</script>
+
+<section>
+  <span /> -->
+<!-- {#each sales as sale, i}
+    {console.log(i, counter)}
+    {#if counter === i}
+      <Bubble {sale} />
+    {/if}
+  {/each}
+</section> -->

@@ -2,11 +2,13 @@
   div {
     padding: 0;
     margin: 0;
-    display: inline-block;
+    display: block;
     text-align: center;
+    position: absolute;
+    top: 0;
   }
 
-  span {
+  /* span {
     border-radius: 50%;
     background: radial-gradient(
       circle,
@@ -15,10 +17,9 @@
     );
     content: '';
     position: absolute;
-    width: 95px;
-    height: 95px;
+    opacity: 0.3;
     z-index: 1;
-  }
+  } */
   #glare {
     width: 16px;
     height: 14px;
@@ -47,31 +48,37 @@
 
 <script lang="ts">
   import { fly } from 'svelte/transition';
-  import { quartInOut } from 'svelte/easing';
+  import { quartIn } from 'svelte/easing';
   import type { SaleEvent } from '../utils/cryptopunksAPI';
   export let sale: SaleEvent;
+  export let i: number;
   const maxWidth = 250;
   const minWidth = 50;
-  //const USDvalue = sale.paymentAmount * sale.paymentToken.USDprice;
-  //const ETHvalue = sale.paymentAmount * sale.paymentToken.ETHprice;
+  // const USDvalue = sale.ether * sale.paymentToken.USDprice;
+  // const ETHvalue = sale.paymentAmount * sale.paymentToken.ETHprice;
   const valueCap = 7;
-  //const scalar = Math.min(Math.log10(USDvalue) / valueCap, 1);
-  //const size = Math.max(scalar * maxWidth, minWidth);
+  const scalar = Math.min(Math.log10(sale.ether) / valueCap, 1);
+  const size = Math.floor(Math.max(scalar * maxWidth, minWidth));
+  const rand = Math.floor(Math.random() * 1000);
 </script>
 
 <div
-  transition:fly={{
-    delay: 100,
-    duration: 40000,
+  in:fly={{
+    delay: rand * i,
+    duration: 20000,
     opacity: 1,
     y: 1500,
-    easing: quartInOut
+    x: Math.floor(rand / 3),
+    easing: quartIn
   }}
+  on:introend={() => {
+    document.getElementById(`${sale.name}${i}`)?.remove();
+  }}
+  id={`${sale.name}${i}`}
 >
-  <span id="glare" />
-  <span />
-  <!---
-  <img src={sale.imageURL} alt={sale.name} width="{size}px" height="{size}px" />
-  <p>${USDvalue.toFixed(2)}</p>
-  -->
+  <!-- <span id="glare" /> -->
+
+  <img src={sale.image_url} alt={sale.name} width="{size}px" height="{size}px" />
+  <!-- <span /> -->
+  <p>${sale.ether}</p>
 </div>
