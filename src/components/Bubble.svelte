@@ -59,16 +59,16 @@
   const valueCap = 7;
   const scalar = Math.min(Math.log10(sale.ether) / valueCap, 1);
   const size = Math.floor(Math.max(scalar * maxWidth, minWidth));
-  const rand = Math.floor(Math.random() * 1000);
+  const rand = Math.floor(Math.max(Math.random() * 2000, 1000));
 </script>
 
 <div
   in:fly={{
     delay: rand * i,
-    duration: 20000,
+    duration: 40000,
     opacity: 1,
     y: 1500,
-    x: Math.floor(rand / 3),
+    // x: Math.floor(rand / 3),
     easing: quartIn
   }}
   on:introend={() => {
@@ -76,9 +76,6 @@
   }}
   id={`${sale.name}${i}`}
 >
-  <!-- <span id="glare" /> -->
-
   <img src={sale.image_url} alt={sale.name} width="{size}px" height="{size}px" />
-  <!-- <span /> -->
   <p>${sale.ether}</p>
 </div>

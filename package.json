@@ -6,7 +6,7 @@
     "build": "NODE_ENV=prod rollup -c",
     "precommit": "yarn format && yarn lint && yarn check && yarn test",
     "dev": "NODE_ENV=dev rollup -c -w",
-    "dev-live": "NODE_END=prod rollup -c -w",
+    "dev-live": "NODE_ENV=prod rollup -c -w",
     "start": "sirv public --no-clear",
     "check": "svelte-check --tsconfig tsconfig.json",
     "format": "prettier --write 'src/**/*.(js|svelte|html|ts)'",
