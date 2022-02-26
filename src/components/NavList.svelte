@@ -39,21 +39,8 @@
 </style>
 
 <script lang="ts">
-  import { createEventDispatcher } from 'svelte';
-  export let currency: string;
-  console.log(currency);
-  const dispatch = createEventDispatcher();
-  function handleCurrency(currency: string) {
-    console.log('second hello');
-    dispatch('currencyChange', {
-      currency
-    });
-    setTimeout(() => {
-      dispatch('toggle', {
-        isOpen: false
-      });
-    }, 1);
-  }
+  import { displayUSD, ETH_USD } from '../stores';
+  export let toggleFunc: () => void;
 </script>
 
 <div>
@@ -61,14 +48,21 @@
     <legend>Currency</legend>
     <input
       type="button"
-      on:click={() => handleCurrency('USD')}
-      class:active={currency === 'USD'}
+      on:click={() => {
+        displayUSD.set(true);
+        toggleFunc();
+      }}
+      disabled={!$ETH_USD}
+      class:active={$displayUSD}
       value="USD"
     />
     <input
       type="button"
-      on:click={() => handleCurrency('ETH')}
-      class:active={currency === 'ETH'}
+      on:click={() => {
+        displayUSD.set(false);
+        toggleFunc();
+      }}
+      class:active={!$displayUSD}
       value="ETH"
     />
   </fieldset>

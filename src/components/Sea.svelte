@@ -31,7 +31,6 @@
   import Bubble from './Bubble.svelte';
   import { fetchNewSales, SaleEvent } from '../utils/cryptopunksAPI';
 
-  // export let currency: string;
   let sales: SaleEvent[] = [];
   const refreshInterval = 15; // Ethereum average block time ~15s
   async function getNewSales() {
@@ -42,7 +41,7 @@
       if (newSales.length > 0) sales = [...sales, ...newSales];
       setTimeout(() => {
         getNewSales();
-      }, refreshInterval * 500);
+      }, refreshInterval * 1000);
     } catch (e) {
       console.error(e);
     }

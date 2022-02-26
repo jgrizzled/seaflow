@@ -51,7 +51,8 @@ export interface SaleEvent {
 
 /* eslint-disable */
 function transformSaleEvent(s: any): SaleEvent {
-  const name = s.nft.uri.split('/').at(-1);
+  let name = s.nft.uri.split('/').at(-1);
+  while (name.length < 4) name = '0' + name; // prepend leading zeroes
   const image_url = `https://www.larvalabs.com/public/images/cryptopunks/punk${name}.png`;
   return {
     name,

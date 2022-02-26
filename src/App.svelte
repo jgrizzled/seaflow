@@ -20,6 +20,19 @@
 
 <script lang="ts">
   import Home from './components/Home.svelte';
+  import { fetchETHUSD } from './utils/coingeckoAPI';
+  import { ETH_USD } from './stores';
+  import { onMount } from 'svelte';
+
+  // fetch and store Ether USD price
+  onMount(async () => {
+    try {
+      const price = await fetchETHUSD();
+      ETH_USD.set(price);
+    } catch (e) {
+      console.error('Failed to retrieve ETH/USD price');
+    }
+  });
 </script>
 
 <main class="container">

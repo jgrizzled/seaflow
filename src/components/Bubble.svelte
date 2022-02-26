@@ -50,16 +50,26 @@
   import { fly } from 'svelte/transition';
   import { quartIn } from 'svelte/easing';
   import type { SaleEvent } from '../utils/cryptopunksAPI';
+  import { ETH_USD, displayUSD } from '../stores';
+
   export let sale: SaleEvent;
   export let i: number;
+
   const maxWidth = 250;
   const minWidth = 50;
-  // const USDvalue = sale.ether * sale.paymentToken.USDprice;
-  // const ETHvalue = sale.paymentAmount * sale.paymentToken.ETHprice;
   const valueCap = 7;
   const scalar = Math.min(Math.log10(sale.ether) / valueCap, 1);
   const size = Math.floor(Math.max(scalar * maxWidth, minWidth));
   const rand = Math.floor(Math.max(Math.random() * 2000, 1000));
+  let displayValue: string;
+  $: if ($displayUSD && typeof $ETH_USD == 'number') {
+    displayValue =
+      '$' +
+      (sale.ether * $ETH_USD).toLocaleString(undefined, { maximumFractionDigits: 2 });
+  } else {
+    displayValue =
+      'Ξ' + sale.ether.toLocaleString(undefined, { maximumFractionDigits: 5 });
+  }
 </script>
 
 <div
@@ -77,5 +87,5 @@
   id={`${sale.name}${i}`}
 >
   <img src={sale.image_url} alt={sale.name} width="{size}px" height="{size}px" />
-  <p>${sale.ether}</p>
+  <p>{displayValue}</p>
 </div>
