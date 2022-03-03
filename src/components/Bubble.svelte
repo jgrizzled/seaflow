@@ -54,6 +54,7 @@
 
   export let sale: SaleEvent;
   export let i: number;
+  export let remove: () => void;
 
   const maxWidth = 250;
   const minWidth = 50;
@@ -81,10 +82,7 @@
     // x: Math.floor(rand / 3),
     easing: quartIn
   }}
-  on:introend={() => {
-    document.getElementById(`${sale.name}${i}`)?.remove();
-  }}
-  id={`${sale.name}${i}`}
+  on:introend={remove}
 >
   <img src={sale.image_url} alt={sale.name} width="{size}px" height="{size}px" />
   <p>{displayValue}</p>

@@ -31,29 +31,41 @@
   import Bubble from './Bubble.svelte';
   import { fetchNewSales, SaleEvent } from '../utils/cryptopunksAPI';
 
-  let sales: SaleEvent[] = [];
+  let displayedSales: SaleEvent[] = [];
   const refreshInterval = 15; // Ethereum average block time ~15s
+  let queuedSales: SaleEvent[] = [];
   async function getNewSales() {
-    console.log('getnew sales');
     try {
       const newSales = await fetchNewSales();
-      if (!newSales) return sales;
-      if (newSales.length > 0) sales = [...sales, ...newSales];
-      setTimeout(() => {
-        getNewSales();
-      }, refreshInterval * 1000);
+      console.log(`Queueing ${newSales.length} sales`);
+      queuedSales.push(...newSales);
+      queuedSales = queuedSales;
     } catch (e) {
       console.error(e);
     }
+    setTimeout(() => {
+      getNewSales();
+    }, refreshInterval * 1000);
   }
   onMount(() => {
     getNewSales();
   });
+  console.log(
+    `displayedSales: ${displayedSales.length}, queuedSales: ${queuedSales.length}`
+  );
+
+  $: {
+    while (displayedSales.length < 20 && queuedSales.length > 0) {
+      console.log('Displaying sale');
+      displayedSales.push(queuedSales.shift() as SaleEvent);
+    }
+    displayedSales = displayedSales;
+  }
 </script>
 
 <div class="container">
-  {#each sales as sale, index (sale.name + index)}
-    <Bubble {sale} i={index} />
+  {#each displayedSales as sale, index (sale.name + index)}
+    <Bubble {sale} i={index} remove={() => displayedSales.splice(index, 1)} />
   {/each}
 </div>
 

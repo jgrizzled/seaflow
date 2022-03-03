@@ -12,7 +12,7 @@ let lastSale = DateTime.now().minus({ days: 30 });
 
 // fetches new sale events since last seen timestamp
 export async function fetchNewSales(): Promise<SaleEvent[]> {
-  const newSales = await fetchSaleEvents(lastSale, 20, 0);
+  const newSales = await fetchSaleEvents(lastSale, 40, 0);
   if (newSales.length > 0) {
     lastSale = newSales[0].datetime;
     return newSales;
