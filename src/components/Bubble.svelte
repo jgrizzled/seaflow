@@ -63,6 +63,7 @@
   const size = Math.floor(Math.max(scalar * maxWidth, minWidth));
   const rand = Math.floor(Math.max(Math.random() * 2000, 1000));
   let displayValue: string;
+  console.log('sale');
   $: if ($displayUSD && typeof $ETH_USD == 'number') {
     displayValue =
       '$' +
@@ -82,7 +83,7 @@
     // x: Math.floor(rand / 3),
     easing: quartIn
   }}
-  on:introend={remove}
+  on:introend={() => remove()}
 >
   <img src={sale.image_url} alt={sale.name} width="{size}px" height="{size}px" />
   <p>{displayValue}</p>
